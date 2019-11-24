@@ -58,11 +58,25 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="JUnitSampleSol-impl.jar">
+<!--       <target name="run" depends="JUnitSampleSol-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
-        </target>
+        </target> -->
+
+<target name="test" depends="test-compile">
+    <junit printsummary="on" haltonfailure="yes" fork="true">
+        <classpath>
+          <path refid="classpath.test"/>
+          <pathelement location="${test.build.dir}"/>
+        </classpath>
+        <formatter type="brief" usefile="false" />
+        <batchtest>
+            <fileset dir="${test.src.dir}" includes="**/*Test.java" />
+        </batchtest>
+    </junit>
+  </target>
+<
 
     Notice that the overridden target depends on the jar target and not only on 
     the compile target as the regular run target does. Again, for a list of available 
